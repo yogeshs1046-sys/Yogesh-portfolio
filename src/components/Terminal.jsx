@@ -199,43 +199,58 @@ export function Terminal({
     }
   };
 
-  if (!isTerminalOpen) return null;
+  const renderInputEntry = (text) => {
+    const match = text.match(/^(yogesh@portfolio):(.*?)\$\s*(.*)$/);
+    if (match) {
+      const [, userHost, path, cmd] = match;
+      return (
+        <span className="leading-relaxed">
+          <span className="text-[#4ec9b0] font-semibold">{userHost}</span>
+          <span className="text-[#cccccc]">:</span>
+          <span className="text-[#38bdf8] font-semibold">{path}</span>
+          <span className="text-[#cccccc]">$ </span>
+          <span className="text-[#cccccc] font-medium">{cmd}</span>
+        </span>
+      );
+    }
+    return <span className="text-[#cccccc] font-medium">{text}</span>;
+  };
 
-  const promptText = `yogesh@portfolio:${formatPromptPath(currentInternalPath)}$`;
+  if (!isTerminalOpen) return null;
 
   return (
     <div
-      className={`bg-[#0F0F0F] text-[#999999] flex flex-col border-t border-white/[0.045] z-10 transition-all select-none ${
-        isTerminalMaximized ? 'h-full' : 'h-52 md:h-60'
+      className={`bg-[#181818] text-[#cccccc] flex flex-col border-t border-[#2b2b2b] z-10 transition-all select-none ${
+        isTerminalMaximized ? 'h-full' : 'h-56 md:h-64'
       } ${isErrorShake ? 'animate-pulse border-rose-500/50' : ''}`}
       onClick={() => inputRef.current?.focus()}
     >
       {/* Terminal Header */}
-      <div className="h-8 bg-[#101010] border-b border-white/[0.045] flex items-center justify-between px-3 text-xs flex-shrink-0">
+      <div className="h-8 bg-[#252526] border-b border-[#2b2b2b] flex items-center justify-between px-3 text-xs flex-shrink-0">
         <div className="flex items-center space-x-4">
           {['PROBLEMS', 'OUTPUT', 'DEBUG CONSOLE', 'TERMINAL', 'PORTS'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab.toLowerCase().replace(' ', '-'))}
               aria-label={`View ${tab} panel`}
-              className={`py-1 text-[11px] font-semibold tracking-wider transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4F8CC9] ${
+              className={`py-1 text-[11px] font-semibold tracking-wider transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#007acc] ${
                 activeTab === tab.toLowerCase().replace(' ', '-')
-                  ? 'text-[#B8B8B8] border-b-2 border-[#4F8CC9]'
-                  : 'text-[#606060] hover:text-[#B8B8B8]'
+                  ? 'text-[#ffffff] border-b-2 border-[#007acc]'
+                  : 'text-[#969696] hover:text-[#cccccc]'
               }`}
             >
               {tab}
-              {tab === 'PROBLEMS' && <span className="ml-1 bg-[#252525] text-[10px] px-1 rounded">0</span>}
+              {tab === 'PROBLEMS' && <span className="ml-1 bg-[#333333] text-[#cccccc] text-[10px] px-1 rounded">0</span>}
             </button>
           ))}
         </div>
 
-        <div className="flex items-center space-x-2 text-[#606060]">
+        <div className="flex items-center space-x-2 text-[#969696]">
           <button
             onClick={() => setHistory([])}
             title="Clear Terminal (Ctrl+L)"
             aria-label="Clear Terminal Output"
-            className="hover:text-[#B8B8B8] transition-colors p-1 rounded focus:outline-none"
+            className="hover:text-[#ffffff] transition-colors p-1 rounded focus:outline-none"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -243,7 +258,7 @@ export function Terminal({
             onClick={() => setIsTerminalMaximized(!isTerminalMaximized)}
             title={isTerminalMaximized ? 'Restore Size' : 'Maximize Panel'}
             aria-label={isTerminalMaximized ? 'Restore Terminal Size' : 'Maximize Terminal Size'}
-            className="hover:text-[#B8B8B8] transition-colors p-1 rounded focus:outline-none"
+            className="hover:text-[#ffffff] transition-colors p-1 rounded focus:outline-none"
           >
             {isTerminalMaximized ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
           </button>
@@ -251,7 +266,7 @@ export function Terminal({
             onClick={() => setIsTerminalOpen(false)}
             title="Close Terminal Panel"
             aria-label="Close Terminal Panel"
-            className="hover:text-[#B8B8B8] transition-colors p-1 rounded focus:outline-none"
+            className="hover:text-[#ffffff] transition-colors p-1 rounded focus:outline-none"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -262,32 +277,33 @@ export function Terminal({
       <div className="flex-1 p-3.5 font-mono text-[14px] overflow-y-auto space-y-1.5 select-text">
         {history.map((item) => (
           <div key={item.id} className="whitespace-pre-wrap leading-relaxed">
-            {item.type === 'input' && (
-              <span className="text-[#B0B0B0] font-semibold">{item.text}</span>
-            )}
+            {item.type === 'input' && renderInputEntry(item.text)}
             {item.type === 'system' && (
-              <span className="text-[#606060]">{item.text}</span>
+              <span className="text-[#858585]">{item.text}</span>
             )}
             {item.type === 'info' && (
-              <span className="text-[#7FA7C7]">{item.text}</span>
+              <span className="text-[#3794ff]">{item.text}</span>
             )}
             {item.type === 'output' && (
-              <span className="text-[#999999]">{item.text}</span>
+              <span className="text-[#cccccc]">{item.text}</span>
             )}
             {item.type === 'success' && (
-              <span className="text-[#789B78] font-semibold">{item.text}</span>
+              <span className="text-[#4ec9b0] font-semibold">{item.text}</span>
             )}
             {item.type === 'error' && (
-              <span className="text-[#A87878] font-semibold">{item.text}</span>
+              <span className="text-[#f14c4c] font-semibold">{item.text}</span>
             )}
           </div>
         ))}
 
         {/* Input Prompt */}
         <form onSubmit={handleSubmit} className="flex items-center space-x-2 pt-1 relative">
-          <span className="text-[#666666] font-bold select-none flex-shrink-0">
-            {promptText}
-          </span>
+          <div className="select-none flex-shrink-0 font-mono text-[14px] flex items-center space-x-0">
+            <span className="text-[#4ec9b0] font-semibold">yogesh@portfolio</span>
+            <span className="text-[#cccccc]">:</span>
+            <span className="text-[#38bdf8] font-semibold">{formatPromptPath(currentInternalPath)}</span>
+            <span className="text-[#cccccc]">$</span>
+          </div>
           <input
             ref={inputRef}
             type="text"
@@ -296,7 +312,7 @@ export function Terminal({
             onKeyDown={handleKeyDown}
             disabled={isProcessing}
             aria-label="Terminal Command Prompt Input"
-            className="flex-1 bg-transparent border-none text-[#B0B0B0] focus:outline-none font-mono text-[14px] leading-none disabled:opacity-50"
+            className="flex-1 bg-transparent border-none text-[#cccccc] placeholder:text-[#555555] focus:outline-none font-mono text-[14px] leading-none disabled:opacity-50"
             spellCheck="false"
             autoComplete="off"
             placeholder={inputVal ? '' : 'Try: help, projects, open cloakroom, neofetch, sudo hire yogesh...'}

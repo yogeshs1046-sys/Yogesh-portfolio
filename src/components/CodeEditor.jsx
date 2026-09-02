@@ -157,11 +157,11 @@ export function CodeEditor({
       {activeFile ? (
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Breadcrumbs Navigation Bar */}
-          <div className="h-7 bg-[#141414] border-b border-white/[0.045] px-4 flex items-center space-x-1 text-[13px] text-[#6B7280] select-none flex-shrink-0">
+          <div className="h-7 bg-[#141414] border-b border-white/[0.045] px-4 flex items-center space-x-1.5 text-[13px] text-[#808080] select-none flex-shrink-0">
             {pathParts.map((part, index) => (
               <React.Fragment key={index}>
-                {index > 0 && <ChevronRight className="w-3.5 h-3.5 text-[#4B5563]" />}
-                <span className={`flex items-center space-x-1 ${index === pathParts.length - 1 ? 'text-[#E2E8F0] font-medium' : 'hover:text-[#9CA3AF]'}`}>
+                {index > 0 && <ChevronRight className="w-3.5 h-3.5 text-[#555555]" />}
+                <span className={`flex items-center space-x-1 ${index === pathParts.length - 1 ? 'text-[#E2E8F0] font-medium' : 'hover:text-[#cccccc]'}`}>
                   {index === pathParts.length - 1 && getFileIcon(activeFile.icon, activeFile.name)}
                   <span>{part}</span>
                 </span>
@@ -180,7 +180,7 @@ export function CodeEditor({
             </Suspense>
           ) : (
             /* Code Canvas with exact resolution syntax colors */
-            <div className="flex-1 overflow-auto font-mono text-sm leading-6 py-2">
+            <div className="flex-1 overflow-auto font-mono text-[14px] leading-6 py-2.5">
               <div className="min-w-full inline-block">
                 {lines.map((lineContent, idx) => {
                   const lineNumber = idx + 1;
@@ -196,14 +196,14 @@ export function CodeEditor({
                       }`}
                     >
                       <div
-                        className={`w-14 px-3 text-right select-none flex-shrink-0 font-mono text-[12px] ${
-                          isActiveLine ? 'text-[#E2E8F0] font-bold' : 'text-[#6B7280]'
+                        className={`w-14 px-3 text-right select-none flex-shrink-0 font-mono text-[12.5px] ${
+                          isActiveLine ? 'text-[#ffffff] font-bold' : 'text-[#656565]'
                         }`}
                       >
                         {lineNumber}
                       </div>
 
-                      <div className="flex-1 pr-6 pl-2 whitespace-pre font-mono relative text-[#E2E8F0]">
+                      <div className="flex-1 pr-6 pl-2.5 whitespace-pre font-mono relative text-[#E2E8F0]">
                         <SyntaxLine line={lineContent} language={activeFile.language} />
 
                         {isActiveLine && (

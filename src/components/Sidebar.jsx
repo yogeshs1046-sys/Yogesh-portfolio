@@ -15,7 +15,7 @@ export function Sidebar({
   return (
     <aside className="w-60 md:w-64 bg-[#101010] text-[#B8B8B8] flex flex-col h-full border-r border-white/[0.045] select-none z-10 flex-shrink-0">
       {/* Sidebar Top Title Bar */}
-      <div className="h-8 px-4 flex items-center justify-between text-[11px] font-bold text-[#606060] tracking-wider uppercase border-b border-white/[0.03]">
+      <div className="h-8 px-3.5 flex items-center justify-between text-[11px] font-bold text-[#808080] tracking-wider uppercase border-b border-white/[0.03]">
         <span>
           {activeTab === 'explorer' && 'EXPLORER'}
           {activeTab === 'search' && 'SEARCH'}
