@@ -8,7 +8,7 @@ export const portfolioData = {
     title: "Computer Science Engineer",
     role: "Full-Stack Web Developer & Software Engineer",
     location: "India",
-    email: "yogesh.singh.dev@example.com",
+    email: "yogeshs1046@gmail.com",
     github: "https://github.com/yogesh-singh",
     linkedin: "https://linkedin.com/in/yogesh-singh",
     twitter: "@yogesh_dev",
